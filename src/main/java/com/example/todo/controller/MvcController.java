@@ -1,7 +1,12 @@
 package com.example.todo.controller;
 
 // HLAVNÍ TEORIE JAK funguji REQUESTY a co je REDIRECT v return, how and where template should be set,
-// jak nastavit MODEL:
+// jak nastavit MODEL , a TAKY NA MVC (THYMELEAF) - RŮZNÉ PRINCIPY!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!:
+// Pro zadání nových TASKů do DB mohu taky využít WEB stránku v browser na URL: http://localhost:8080/
+// Tam totiž sídlí : index.html !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+//********************VELMI DŮLEŽITÉ*************************
+// todo Pozor: Když za běhu programu přidám třeba jen komentař, tak se zruší spojení s DB a musím zadat TASKy znovu!!!!!!!!!!!!!!
+
 // In your Spring application, the @PostMapping("/createTodo") annotation indicates that the createTodo method should be
 // called in response to a POST request to the URL path "/createTodo". This is part of the Spring MVC framework,
 // where you map HTTP requests to specific handler methods in your controller classes.
@@ -31,13 +36,19 @@ package com.example.todo.controller;
 // than directly rendering a view at the end of the operation. This approach follows the Post/Redirect/Get pattern,
 // which helps prevent duplicate form submissions.
 
-// DŮLEŽITÝ PRINCIP "redirect:/" a "index.html": V našem případě po zadání nějakých TASKů (pomocí createTodo metody) do
+// DŮLEŽITÝ PRINCIP "redirect:/" a "index.html": V našem případě po zadání nějakých TASKů do DB (pomocí createTodo metody) do
 // DB si mohu prohlédnout Thymeleaf stránku index.html přímo v rootu na http://localhost:8080/, kde sídlí index.html.
 // Toto je zadáno v tom prvním @GetMapping :  @GetMapping("/")
 //                                            public String getAllTodos(Model model)
-// TAKY MOHU ZADAT NĚJAKÝ TASK DO DB POMOCÍ PŘÍMÉHO ZÁPISU DO BROWSERU NA URL (platí pro @PostMapping("/createTodo")):
-// http://localhost:8080/createTodo?title=Task2&date=2023-08-2
-// A zde hlavně uvidím, jak se automaticky přesměruje na tu jinou stránku - tj. zde na ":/" dané v: return "redirect:/".
+// HLAVNI PRINCIP: To "redirect:/" je tam kvůli tomu, že když zadávám nové Tasky pomocí formuláře v index.html,
+//                 tak tam volám metodu createTodo pomocí "post", která sídlí na adrese "/createTodo". Po odeslání
+//                 formuláře se však chci vrátit zpět na formulář, který je v INDEX v rootu (http://localhost:8080/)!!!!
+// A taky v RESPONSE na ten POST příkaz uvidím tu stránku index.html, protože za return je "redirect:/", a to přesměruje
+// na tu jinou stránku - tj. zde na ":/" dané v: return "redirect:/". A zde sídlí díky prvnímu GET níže stránka index.html.
+// TAKY MOHU ZADAT NĚJAKÝ TASK DO DB POMOCÍ PŘÍMÉHO ZÁPISU DO BROWSERU NA URL.
+// POZOR: DO BROWSERU NA URL LZE ZADAT POUZE GET příkaz !!!!!!!!!!!!!!!!!!!!!!!!!!!!
+// http://localhost:8080/
+
 
 import com.example.todo.service.TodoService;
 import lombok.RequiredArgsConstructor;
@@ -61,15 +72,20 @@ public class MvcController {
     //In Spring MVC, mostly returning a String from your controller methods represents the name of the view
     // (like a Thymeleaf or JSP page). The template should be placed in the appropriate directory in your project
     // (e.g., src/main/resources/templates for Thymeleaf).
+
+    // HLAVNÍ PRINCIP: V MVC (THYMELEAF) MOHU POUŽÍVAT JAK PARAMETRY ZADANÉ V METODĚ PRO DANÝ PŘÍKAZ POST, GET, atd.,
+    //                 ALE TAKY ATRIBUTY ZADANÉ POMOCÍ Model, JAKO PARAMETR METODY.
+
     @GetMapping("/")
     public String getAllTodos(Model model){
+        // Metoda getAllTodos vrací seznam Todo Entit !!!!!!!!!!!!!!!!!
         model.addAttribute("todos",todoService.getAllTodos());
         return "index";  // VIEW soubor typu thymeleaf musí být uložen v "src/main/resources/templates"
     }                    // Zde je to soubor: index.html !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-    @PostMapping("/changeStatus")
-    public String changeStatus(@RequestParam Long id){
-        todoService.changeStatus(id);
+    @PostMapping("/changeStatus")    // Když dělám přes formulář v MVC view, tak to jde taky nejprve na stránku
+    public String changeStatus(@RequestParam Long id){  // "/changeStatus", tam vykoná metodu, a nakonec "redirect:/" do rootu.
+        todoService.changeStatus(id);                   // Tj. zpět do formuláře.
         return "redirect:/";  // This tells Spring MVC to redirect the user's browser to a different URL. In this case,
           // it's redirecting to the root URL of your application ("/"). Více viz. DŮLEŽITÝ PRINCIP "redirect:/" a "index.html".
     }

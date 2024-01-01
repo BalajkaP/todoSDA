@@ -25,7 +25,7 @@ public class TodoService {
 
     //read
 
-    public List<Todo> getAllTodos(){
+    public List<Todo> getAllTodos(){         // Klasicky využije implicit metodu v JpaRepository<Todo,Long>  !!!!!!!!!!!!
         return todoRepository.findAll();
     }
 

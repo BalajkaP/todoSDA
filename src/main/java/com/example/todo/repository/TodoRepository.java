@@ -8,5 +8,6 @@ import java.util.List;
 
 @Repository
 public interface TodoRepository extends JpaRepository<Todo,Long> {
+    // Vyhledám Entity Todo podle stavu field isDone !!!!!!!!!!!!!!!!
     List<Todo> findAllByIsDone(boolean status);
 }

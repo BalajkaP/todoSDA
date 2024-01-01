@@ -87,27 +87,49 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="todo : ${todos}">
+        <!-- HLAVNÍ PRINCIP: V MVC (THYMELEAF) MOHU POUŽÍVAT JAK PARAMETRY ZADANÉ V METODĚ PRO DANÝ PŘÍKAZ POST, GET, atd.,
+             ALE TAKY ATRIBUTY ZADANÉ POMOCÍ Model, JAKO PARAMETR METODY. Rozdíl mezi nimi je , že parametry z metody
+             (zde to jsou: tittle, date a id) použiji čistě jako jméno param bez závorek, kdežto ten atribut
+              definovaný v Model použiju takto: ${todos} -->
+        <tr th:each="todo : ${todos}">     <!-- Zde začíná jakoby FOR-EACH, a ten projede všechny "todos" - je to atribut
+                                                    z Model v getAllTodos metodě v MvcController. Každá položka v cyklu
+                                                    má název todo, a na jednotlivé field se odkazuji klasicky pomocí názvu
+                                                    Field v deklaraci Entity (todo.title,todo.dueDate) -->
             <td th:text="${todo.title}"></td>
             <td th:text="${#dates.format(todo.dueDate, 'dd-MM-yyyy')}"></td>
 <!--             <td th:text="${todo.isDone}"></td> -->
             <td th:text="${todo.isDone ? 'done' : 'todo'}"></td>
             <td>
                 <form th:action="@{/changeStatus}" method="post">
+           <!-- Zde pouze pro tuto textovou položku získám název tak že ho ZADÁM JAKO HODNOTU Z DB - TJ."${todo.id}".
+                A tak se vlastně i nastaví hodnota "id" z parametru příkazu POST. Je to vlastně v principu stejné,
+                jako bych zadal "id" v parametru příkazu POST
+                ZDE JDE O JINÝ (DRUHÝ) ZPŮSOB NASTAVENÍ HODNOTY KLÍČOVÉHO PARAMETRU V DANÉM POLÍČKU - ZDE PŘIŘADÍM HODNOTU,
+                KDEŽTO NÍŽE V name="title" HODNOTU ZADÁM Z KLÁVESNICE!!!!!!!!!!!!!!!!!!!!!!!!!
+        NAKONEC JEŠTĚ PŘI ODESLÁNÍ METODOU POST PROVEDU JEŠTĚ METODU todoService.changeStatus(id) UVNITŘ POST V CONTROLLERu-->
                     <input type="hidden" th:name="id" th:value="${todo.id}"/>
                     <button type="submit">Change Status</button>
                 </form>
+                <!-- JDE ZDE O TŘETÍ ZPŮSOB NASTAVENÍ HODNOTY KLÍČOVÉHO PARAMETRU V DANÉM POLÍČKU. Zde použiju ten parametr
+                     podobně jako v URL, tj. hned jakoby v path pouze v -->
                 <form th:action="@{/deleteTodo/{id}(id=${todo.id})}" method="post">
                     <button class="btn-danger" type="submit">Delete</button>
                 </form>
             </td>
-        </tr>
+        </tr>                           <!-- Až zde končí FOR-EACH -->
         </tbody>
     </table>
     <h2>Create Todo</h2>
-    <form th:action="@{/createTodo}" method="post">
+    <form th:action="@{/createTodo}" method="post">  <!--Jako akci provedu odeslání formuláře pomocí metody createTodo
+                                                         v CONTROLLER. Je to stejné, jako bych vynutil POST v
+                                                         generated-requests v IntelliJ !!!!!!!!!!!!!!!!!-->
         <label>Title:</label>
-        <input type="text" th:name="title" required/>
+        <input type="text" th:name="title" required/>  <!--HLAVNÍ PRINCIP: Zde pouze pro tuto textovou položku získám název
+                                                           tak že ho zadám DO FORMULÁŘE. A tak se vlastně i nastaví hodnota "title"
+                                                           z parametru příkazu POST. Je to vlastně v principu stejné,
+                                                           jako bych zadal "title" v parametru příkazu POST:
+                                                    POST http://localhost:8080/createTodo?title=Task2&date=2023-09-10-->
+              <!-- JDE ZDE O PRVNÍ ZPŮSOB NASTAVENÍ HODNOTY KLÍČOVÉHO PARAMETRU V DANÉM POLÍČKU - zadám z klávesnice-->
         <br/>
         <label>Date:</label>
         <input type="date" th:name="date" required/>
