@@ -36,7 +36,7 @@ public class TodoService {
 
     //update
     public void changeStatus(Long id){
-        Todo todo = todoRepository.findById(id).get();
+        Todo todo = todoRepository.findById(id).get();  // Použiju get(), protože findById vrací OPTIONAL
         todo.setIsDone(!todo.getIsDone());
         todoRepository.save(todo);
     }
@@ -47,12 +47,15 @@ public class TodoService {
         todoRepository.deleteById(id);
     }
 
+    // Zde musím převest zadaný String na date format.
     public Date convertStringToDate(String date){
         String dateString = date;
+//Constructs a SimpleDateFormat using the given pattern and the default date format symbols for the default FORMAT locale.
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        Date date2 = null;
+        Date date2 = null;       // Implicit class Date umožňuje uložit časovou hodnotu s přesností na ms
         try {
-            date2 = dateFormat.parse(dateString);
+            date2 = dateFormat.parse(dateString); // Parses text from the beginning of the given string to produce a date.
+                                    // Tj. převede zaslaný řetězec dateString na datum dle formátu dateFormat.
         } catch (ParseException e) {
             e.printStackTrace();
         }

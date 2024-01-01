@@ -93,7 +93,7 @@ public class MvcController {
     // POZOR: DATUM NUTNO ZADAT VE FORMÁTU: "yyyy-MM-dd"
     @PostMapping("/createTodo")
     public String createTodo(@RequestParam String title, String date){
-        todoService.createTodo(title,todoService.convertStringToDate(date));
+        todoService.createTodo(title,todoService.convertStringToDate(date)); // Zde musím převest zadaný String na date format
         return "redirect:/";          // This tells Spring MVC to redirect the user's browser to a different URL. In this case,
         // it's redirecting to the root URL of your application ("/"). Více viz. DŮLEŽITÝ PRINCIP "redirect:/" a "index.html".
     }

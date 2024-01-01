@@ -91,15 +91,18 @@
              ALE TAKY ATRIBUTY ZADANÉ POMOCÍ Model, JAKO PARAMETR METODY. Rozdíl mezi nimi je , že parametry z metody
              (zde to jsou: tittle, date a id) použiji čistě jako jméno param bez závorek, kdežto ten atribut
               definovaný v Model použiju takto: ${todos} -->
+        <!-- VOLÁME ZDE stránky z MvcController !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
         <tr th:each="todo : ${todos}">     <!-- Zde začíná jakoby FOR-EACH, a ten projede všechny "todos" - je to atribut
                                                     z Model v getAllTodos metodě v MvcController. Každá položka v cyklu
                                                     má název todo, a na jednotlivé field se odkazuji klasicky pomocí názvu
                                                     Field v deklaraci Entity (todo.title,todo.dueDate) -->
-            <td th:text="${todo.title}"></td>
-            <td th:text="${#dates.format(todo.dueDate, 'dd-MM-yyyy')}"></td>
+
+            <td th:text="${todo.title}"></td>                      <!-- Políčko pro tittle - Název Tasku-->
+            <td th:text="${#dates.format(todo.dueDate, 'dd-MM-yyyy')}"></td>   <!-- Políčko pro datum-->
 <!--             <td th:text="${todo.isDone}"></td> -->
-            <td th:text="${todo.isDone ? 'done' : 'todo'}"></td>
+            <td th:text="${todo.isDone ? 'done' : 'todo'}"></td>    <!-- Políčko pro Status-->
             <td>
+                <!-- Políčko pro Change Status, volám stránku /changeStatus v MvcController-->
                 <form th:action="@{/changeStatus}" method="post">
            <!-- Zde pouze pro tuto textovou položku získám název tak že ho ZADÁM JAKO HODNOTU Z DB - TJ."${todo.id}".
                 A tak se vlastně i nastaví hodnota "id" z parametru příkazu POST. Je to vlastně v principu stejné,
@@ -111,7 +114,14 @@
                     <button type="submit">Change Status</button>
                 </form>
                 <!-- JDE ZDE O TŘETÍ ZPŮSOB NASTAVENÍ HODNOTY KLÍČOVÉHO PARAMETRU V DANÉM POLÍČKU. Zde použiju ten parametr
-                     podobně jako v URL, tj. hned jakoby v path pouze v -->
+                     podobně jako v URL kde používám klasický PathVariable. {id} is a placeholder for a path variable,
+                     protože metoda deleteTodo je definovaná pro použití PathVariable: "/deleteTodo/{id}" .
+                     Každý řádek formuláře = řádek v DB, tj. daná Entita. Jak tedy zde získám to ID:
+                     (id=${todo.id}): This part of the expression is filling in the {id} placeholder with the actual ID
+                     of the Todo item. It's using a Thymeleaf expression ${...} to insert the value of todo.id into the URL.
+                     So, if todo.id is 123, the URL will become /deleteTodo/123. Protože každý řádek formuláře obsahuje
+                     patřičné Todo, a tedy i ID.-->
+                <!-- Políčko pro Delete, volám stránku /deleteTodo/{id} v MvcController-->
                 <form th:action="@{/deleteTodo/{id}(id=${todo.id})}" method="post">
                     <button class="btn-danger" type="submit">Delete</button>
                 </form>

@@ -21,7 +21,7 @@ public class Todo {
     private Date dueDate;
     private Boolean isDone;
 
-    public Todo(String title, Date dueDate) {
+    public Todo(String title, Date dueDate) {  // Tento kostruktor použiju v createTodo
         this.title = title;
         this.dueDate = dueDate;
         this.isDone = false;

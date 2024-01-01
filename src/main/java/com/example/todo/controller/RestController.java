@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+// ZDE JEN UKÁZKA POUŽITÍ KLASICKÝCH REST METOD (POST, GET).
+// POUŽÍVÁ ZDE TEN MODEL TodoDto V METODĚ createTodo.
 @org.springframework.web.bind.annotation.RestController
 @RequiredArgsConstructor
 @CrossOrigin
