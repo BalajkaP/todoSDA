@@ -18,7 +18,7 @@ public class Todo {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String title;
-    private Date dueDate;
+    private Date dueDate;              // POZOR: Zde je dueDate jako typ Date
     private Boolean isDone;
 
     public Todo(String title, Date dueDate) {  // Tento kostruktor použiju v createTodo

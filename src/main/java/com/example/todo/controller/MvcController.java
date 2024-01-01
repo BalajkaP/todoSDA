@@ -78,7 +78,7 @@ public class MvcController {
 
     @GetMapping("/")
     public String getAllTodos(Model model){
-        // Metoda getAllTodos vrací seznam Todo Entit !!!!!!!!!!!!!!!!!
+        // Metoda getAllTodos vrací seznam Todo Entit získaný z DB !!!!!!!!!!!!!!!!!
         model.addAttribute("todos",todoService.getAllTodos());
         return "index";  // VIEW soubor typu thymeleaf musí být uložen v "src/main/resources/templates"
     }                    // Zde je to soubor: index.html !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!

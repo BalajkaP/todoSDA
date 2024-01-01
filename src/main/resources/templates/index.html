@@ -98,9 +98,17 @@
                                                     Field v deklaraci Entity (todo.title,todo.dueDate) -->
 
             <td th:text="${todo.title}"></td>                      <!-- Políčko pro tittle - Název Tasku-->
-            <td th:text="${#dates.format(todo.dueDate, 'dd-MM-yyyy')}"></td>   <!-- Políčko pro datum-->
+            <!-- Políčko pro datum.
+                 #dates: This is a part of Thymeleaf's utility objects (predefined objects). #dates is specifically for
+                 date operations. Thymeleaf provides a variety of utility objects for tasks like working with dates,
+                 arrays, lists, and so forth.
+                 format(...): This is a method of the #dates utility object. It's used to format date objects. The format
+                 method takes two arguments: the date object to be formatted and the pattern to format the date.
+                 Převede ten datum tedy z formátu "yyyy-MM-dd"  na 'dd-MM-yyyy' a tak i zobrazí do formuláře!!!!!!!!!!!!-->
+            <td th:text="${#dates.format(todo.dueDate, 'dd-MM-yyyy')}"></td>
 <!--             <td th:text="${todo.isDone}"></td> -->
-            <td th:text="${todo.isDone ? 'done' : 'todo'}"></td>    <!-- Políčko pro Status-->
+            <td th:text="${todo.isDone ? 'done' : 'todo'}"></td> <!-- Políčko pro Status. Pokud field isDone=TRUE, tak
+                                                                     vytiskne do formuláře 'done', jinak 'todo'.-->
             <td>
                 <!-- Políčko pro Change Status, volám stránku /changeStatus v MvcController-->
                 <form th:action="@{/changeStatus}" method="post">

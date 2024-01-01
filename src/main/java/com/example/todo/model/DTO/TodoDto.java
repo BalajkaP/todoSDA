@@ -7,5 +7,5 @@ import lombok.Data;
 @Data
 public class TodoDto {
     private String title;
-    private String date;
+    private String date;    //Pozor: Zde date jako String na rozdíl od Todo modelu
 }
