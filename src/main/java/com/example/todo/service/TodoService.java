@@ -36,8 +36,9 @@ public class TodoService {
 
     //update
     public void changeStatus(Long id){
-        Todo todo = todoRepository.findById(id).get();  // Použiju get(), protože findById vrací OPTIONAL
-        todo.setIsDone(!todo.getIsDone());
+    //  Todo todo = todoRepository.findById(id).get();  // Použiju get(), protože findById vrací OPTIONAL
+        Todo todo = todoRepository.findById(id).orElseThrow(); // Použiju raději orElseThrow, protože pokud neeexistuje,
+        todo.setIsDone(!todo.getIsDone());                     // vyhodí vyjímku
         todoRepository.save(todo);
     }
 
