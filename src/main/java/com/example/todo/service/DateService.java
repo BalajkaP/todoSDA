@@ -46,10 +46,23 @@ public class DateService {
         } catch (Exception e) {            // Když při převodu a validaci vyhodí vyjímku, tak vytisknu do logu hlášku
             log.error(todoDto.getDate());
             log.error("The string does not have the format yyyy-MM-dd");
+            log.error(e.toString());
+            throw new NumberFormatException("zly format");
         }
         // Toto proběhne pouze, když se neuplatní return new ResponseEntity<>("Todo created", HttpStatus.CREATED)
         // výše v IF statementu!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         return new ResponseEntity<>("The string does not have the format yyyy-MM-dd",HttpStatus.BAD_REQUEST);
     }
 
+    public Integer sum(Integer a, Integer b){
+        if (a+b < 0){
+            throw new NumberFormatException("nemoze byt zaporne");
+        }else if (a+b > 10){
+            throw new RuntimeException("To uz je moc velke");
+        }else if (a == 0 ||
+                b == 0){
+            throw new NullPointerException("Zadaj obe cisla");
+        }
+        return (a+b) * -1;
+    }
 }
