@@ -112,9 +112,9 @@
             <td>
                 <!-- Políčko pro Change Status, volám stránku /changeStatus v MvcController-->
                 <form th:action="@{/changeStatus}" method="post">
-           <!-- Zde pouze pro tuto textovou položku získám název tak že ho ZADÁM JAKO HODNOTU Z DB - TJ."${todo.id}".
-                A tak se vlastně i nastaví hodnota "id" z parametru příkazu POST. Je to vlastně v principu stejné,
-                jako bych zadal "id" v parametru příkazu POST
+           <!-- Zde pouze pro tuto textovou položku získám název tak že ho ZADÁM JAKO HODNOTU Z DB - TJ."${todo.id}"
+                do položky value. A tak se vlastně i nastaví hodnota "id" z parametru příkazu POST. Je to vlastně v principu stejné,
+                jako bych zadal "id" v parametru příkazu POST. Zde to ten název parametru "id"
                 ZDE JDE O JINÝ (DRUHÝ) ZPŮSOB NASTAVENÍ HODNOTY KLÍČOVÉHO PARAMETRU V DANÉM POLÍČKU - ZDE PŘIŘADÍM HODNOTU,
                 KDEŽTO NÍŽE V name="title" HODNOTU ZADÁM Z KLÁVESNICE!!!!!!!!!!!!!!!!!!!!!!!!!
         NAKONEC JEŠTĚ PŘI ODESLÁNÍ METODOU POST PROVEDU JEŠTĚ METODU todoService.changeStatus(id) UVNITŘ POST V CONTROLLERu
