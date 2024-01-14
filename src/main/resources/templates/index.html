@@ -117,7 +117,8 @@
                 jako bych zadal "id" v parametru příkazu POST
                 ZDE JDE O JINÝ (DRUHÝ) ZPŮSOB NASTAVENÍ HODNOTY KLÍČOVÉHO PARAMETRU V DANÉM POLÍČKU - ZDE PŘIŘADÍM HODNOTU,
                 KDEŽTO NÍŽE V name="title" HODNOTU ZADÁM Z KLÁVESNICE!!!!!!!!!!!!!!!!!!!!!!!!!
-        NAKONEC JEŠTĚ PŘI ODESLÁNÍ METODOU POST PROVEDU JEŠTĚ METODU todoService.changeStatus(id) UVNITŘ POST V CONTROLLERu-->
+        NAKONEC JEŠTĚ PŘI ODESLÁNÍ METODOU POST PROVEDU JEŠTĚ METODU todoService.changeStatus(id) UVNITŘ POST V CONTROLLERu
+        Submit se vždy vztahuje k action výše.-->
                     <input type="hidden" th:name="id" th:value="${todo.id}"/>
                     <button type="submit">Change Status</button>
                 </form>
