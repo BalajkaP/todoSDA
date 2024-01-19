@@ -8,7 +8,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 // POZOR: Zde si vytvořím prvního admin usera s rolí ROLE_ADMIN. Aby po přihlášení na index bylo možno přejít na stránku
-// admin přes link Manage Roles !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+// admin přes link Manage Roles . User= admin, Heslo = adminPassword  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 // Jsou i jiné způsoby vytvoření prvního ADMIN. Např. přímo zadat do DB tabulky.
 @Component
 public class AdminUserInitializer implements CommandLineRunner {

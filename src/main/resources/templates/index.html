@@ -106,6 +106,22 @@
             color: white;
         }
     </style>
+
+    <!-- function showAccessDenied() {...}:
+          This is a JavaScript function declaration. The function, named showAccessDenied, contains a single statement.
+          When called, this function executes the code inside its curly braces {}.
+         alert("Access not allowed. Please LOGIN as admin with ADMIN role.");:
+          Inside the function, the alert method is called with a string message.
+          "alert" is a built-in JavaScript function that displays a dialog box with a specified message and an OK button.
+          In this case, it shows the message "Access not allowed. Please LOGIN as admin with ADMIN role." This dialog
+          must be dismissed (by clicking OK) before the user can interact with the page again.
+          "text/javascript": is the Internet media type for JavaScript. It tells the browser that the content enclosed in
+          the script tag is JavaScript code.-->
+    <script type="text/javascript">
+        function showAccessDenied() {
+            alert("Access not allowed. Please LOGIN as admin with ADMIN role.");
+        }
+    </script>
 </head>
 <body>
 <nav>
@@ -113,16 +129,37 @@
         <!-- Home Link -->
         <li><a href="/">Home</a></li>
 
-        <!-- Admin Link (Visible only to users with ADMIN role)
-             Admin Link: This link is visible only to users with the ADMIN role. sec:authorize="hasRole('ADMIN')" is a
-             Spring Security Thymeleaf directive that conditionally renders the content based on the user's role. -->
-        <li sec:authorize="hasRole('ADMIN')">
-        <!--  <a href="/admin">Manage Roles</a>   -->
-            <a th:href="@{/admin}">Manage Roles</a>
-        </li>
+        <!-- Conditional Admin Link (Visible only to users with ADMIN role) .... Toto zatím nefachčí.
+             sec:authorize="hasRole('ADMIN')" nefachčí !!!!!!!!!
+        Zde 2 verze jak udělat podmíněný skok na "admin" page přes link Manage Roles (pokud non-Admin, tak vyhodí ALERT):
+            1) Admin Link: This link is visible only to users with the ADMIN role. sec:authorize="hasRole('ADMIN')" is a
+             Spring Security Thymeleaf directive that conditionally renders the content based on the CURRENT user's role. -->
+        <li sec:authorize="hasRole('ADMIN')"> <a th:href="@{/admin}">Manage Roles</a></li>
+           <!--  <a href="/admin">Manage Roles</a>  : Zkusil jsem i toto -->
 
-        <!-- Logout Link: When clicked, it triggers a JavaScript onclick event that prevents the default link behavior
-        and instead submits the hidden logout form. This is a common pattern in Spring Security for CSRF-protected logout. -->
+        <!-- VYSVETLENI: <a href="javascript:void(0)" onclick="showAccessDenied()">Manage Roles</a>:
+              This is a hyperlink (<a> tag) with two key attributes:
+              href="javascript:void(0)": Normally, the href attribute in an <a> tag defines the URL to which the link
+              points. Here, it uses a JavaScript URI with void(0) to ensure that clicking the link does nothing in terms
+              of navigation (i.e., it won’t take you to a new page or reload the current page).
+              onclick="showAccessDenied()": This sets up an event listener for the click event. When the link is clicked,
+              it runs the showAccessDenied JavaScript function.-->
+       <li sec:authorize="!hasRole('ADMIN')"><a href="javascript:void(0)" onclick="showAccessDenied()">Manage Roles</a></li>
+
+        <!--  2) Tato verze je pomocí: #authorization.expression('hasRole(''ADMIN'')'):
+               Thymeleaf th:if and th:unless Attributes: These attributes are used to conditionally render the "Manage Roles" link.
+               th:if="${#authorization.expression('hasRole(''ADMIN'')')}": This condition checks if the user has the
+               ADMIN role. If true, the normal link to the admin page is rendered.
+               th:unless="${#authorization.expression('hasRole(''ADMIN'')')}": This does the opposite. If the user does
+               not have the ADMIN role, it renders a link that does nothing (href="javascript:void(0)") but triggers
+               the showAccessDenied() function when clicked.-->
+        <!-- <li>
+         <a th:if="${#authorization.expression('hasRole(''ADMIN'')')}" th:href="@{/admin}">Manage Roles</a>
+         <a th:unless="${#authorization.expression('hasRole(''ADMIN'')')}" href="javascript:void(0)" onclick="showAccessDenied()">Manage Roles</a>
+         </li> -->
+
+         <!-- Logout Link: When clicked, it triggers a JavaScript onclick event that prevents the default link behavior
+         and instead submits the hidden logout form. This is a common pattern in Spring Security for CSRF-protected logout. -->
         <li><a th:href="@{/logout}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a></li>
     </ul>
 </nav>

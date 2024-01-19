@@ -23,6 +23,7 @@
         table {
             width: 100%;
             border-collapse: collapse;
+            margin-top: 20px;    /* Add top margin if needed - pro větší mezeru mezi table a Return button */
         }
 
         th, td {
@@ -48,11 +49,31 @@
         button:hover {
             background-color: #45a049;
         }
+
+        /* Style for the return button */
+        .return-button {
+            background-color: #008CBA; /* Blue color */
+            color: white;
+            padding: 10px 20px;
+            margin-bottom: 20px; /* Add bottom margin to have the space between Button and table*/
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            display: inline-block; /* Added to apply margin correctly */
+        }
+
+        .return-button:hover {
+            background-color: #005f73; /* Darker blue on hover */
+        }
     </style>
 </head>
 <body>
 <div class="container">
     <h1>Manage User Roles</h1>
+    <!-- Button to return to the main page -->
+    <a th:href="@{/}" class="return-button">Return to Main Page</a>
+    <!-- Table for ROLE CHANGE -->
     <table>
         <thead>
         <tr>
