@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>Todo List</title>
@@ -110,13 +110,25 @@
 <body>
 <nav>
     <ul>
+        <!-- Home Link -->
         <li><a href="/">Home</a></li>
-        <!-- Other menu items -->
+
+        <!-- Admin Link (Visible only to users with ADMIN role)
+             Admin Link: This link is visible only to users with the ADMIN role. sec:authorize="hasRole('ADMIN')" is a
+             Spring Security Thymeleaf directive that conditionally renders the content based on the user's role. -->
+        <li sec:authorize="hasRole('ADMIN')">
+        <!--  <a href="/admin">Manage Roles</a>   -->
+            <a th:href="@{/admin}">Manage Roles</a>
+        </li>
+
+        <!-- Logout Link: When clicked, it triggers a JavaScript onclick event that prevents the default link behavior
+        and instead submits the hidden logout form. This is a common pattern in Spring Security for CSRF-protected logout. -->
         <li><a th:href="@{/logout}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a></li>
     </ul>
 </nav>
 
-<!-- Logout Form (Hidden) -->
+<!-- Logout Form (Hidden)
+     Hidden Logout Form: This form is used to perform the logout action. It includes a CSRF token for security. -->
 <form id="logout-form" th:action="@{/logout}" method="post">
     <input type="hidden" name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
 </form>

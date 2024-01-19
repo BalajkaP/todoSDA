@@ -61,10 +61,13 @@ import org.springframework.security.web.SecurityFilterChain;
 //                .permitAll();
 //    }
 
+    // Je to vlastně pouze konfigurace, jak se mají chovat jednotlivé stránky a přístup k nim.
+    // Všechny stránky autentizované a pro přístup použiji LOGIN page.
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests()
                 .requestMatchers("/registration").permitAll()
+                //.requestMatchers("/admin").hasRole("ROLE_ADMIN")
                 .anyRequest().authenticated()    // Všechny stránky musí být autentizované
                 //.requestMatchers(HttpMethod.GET, "/h2/**").anonymous()
                 .and()

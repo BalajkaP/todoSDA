@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 //@RequiredArgsConstructor
 public class UserService {
@@ -20,6 +22,16 @@ public class UserService {
 
     public void registerUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        userRepository.save(user);
+    }
+
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
+    }
+
+    public void changeUserRole(Long userId, String newRole) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+        user.setRole(newRole);
         userRepository.save(user);
     }
 }
