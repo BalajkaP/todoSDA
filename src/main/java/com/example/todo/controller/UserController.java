@@ -3,6 +3,7 @@ package com.example.todo.controller;
 import com.example.todo.model.User;
 import com.example.todo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -46,9 +47,14 @@ public class UserController {
     @GetMapping("/admin")
     @Secured("ROLE_ADMIN")
     public String adminPage(Model model) {
-        List<User> users = userService.getAllUsers();
-        model.addAttribute("users", users);
-        return "admin";
+        try {
+            List<User> users = userService.getAllUsers();
+            model.addAttribute("users", users);
+            return "admin";
+        } catch (AccessDeniedException e ) {
+            return "redirect:/";
+        }
+
     }
 
     @PostMapping("/admin/changeRole")

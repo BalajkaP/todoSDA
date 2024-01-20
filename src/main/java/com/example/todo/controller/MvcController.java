@@ -51,7 +51,9 @@ package com.example.todo.controller;
 
 
 import com.example.todo.service.TodoService;
+import com.example.todo.service.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -63,11 +65,12 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
+@Slf4j
 @Controller
 @RequiredArgsConstructor
 public class MvcController {
     private final TodoService todoService;
+    private final UserService userService;
 
     //In Spring MVC, mostly returning a String from your controller methods represents the name of the view
     // (like a Thymeleaf or JSP page). The template should be placed in the appropriate directory in your project
@@ -80,6 +83,8 @@ public class MvcController {
     public String getAllTodos(Model model){
         // Metoda getAllTodos vrací seznam Todo Entit získaný z DB !!!!!!!!!!!!!!!!!
         model.addAttribute("todos",todoService.getAllTodos());
+        model.addAttribute("userRole", userService.getLoggedInUserRole());
+        log.info(userService.getLoggedInUserRole());
         return "index";  // VIEW soubor typu thymeleaf musí být uložen v "src/main/resources/templates"
     }                    // Zde je to soubor: index.html !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 

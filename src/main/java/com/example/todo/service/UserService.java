@@ -3,6 +3,8 @@ package com.example.todo.service;
 import com.example.todo.model.User;
 import com.example.todo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -33,5 +35,15 @@ public class UserService {
         User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
         user.setRole(newRole);
         userRepository.save(user);
+    }
+    public String getLoggedInUserRole() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.isAuthenticated()) {
+            return authentication.getAuthorities().stream()
+                    .findFirst()
+                    .map(Object::toString)
+                    .orElse("USER");
+        }
+        return "USER";
     }
 }
