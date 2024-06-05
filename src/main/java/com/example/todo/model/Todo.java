@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
+// Pozn
 @Entity
 @Data
 @NoArgsConstructor
